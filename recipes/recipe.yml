@@ -32,7 +32,6 @@ modules:
       - google-chrome-stable
       - brave-browser
       - cosmic-store
-      - PackageKit
       - android-tools
       - gpaste
       - gpaste-bash-completion
@@ -45,14 +44,14 @@ modules:
       
       - htop # (useless)
       - gnome-software # (RAM eater)
-  replace:
-  - from-repo: https://copr.fedorainfracloud.org/coprs/trixieua/mutter-patched/repo/fedora-%OS_VERSION%/trixieua-mutter-patched-fedora-%OS_VERSION%.repo
-    packages:
-      - gnome-shell
-      - mutter
-      - mutter-common
-      - xorg-x11-server-Xwayland
-      - gdm
+    replace:
+      - from-repo: https://copr.fedorainfracloud.org/coprs/trixieua/mutter-patched/repo/fedora-%OS_VERSION%/trixieua-mutter-patched-fedora-%OS_VERSION%.repo
+        packages:
+          - gnome-shell
+          - mutter
+          - mutter-common
+          - xorg-x11-server-Xwayland
+          - gdm
 
   - type: signing # this sets up the proper policy & signing files for signed images to work fully
 
