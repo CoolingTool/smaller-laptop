@@ -34,6 +34,8 @@ modules:
       - chromium
       - cosmic-store
       - android-tools
+      - ripgrep
+      - pipx
       - gpaste
       - gpaste-bash-completion
       - gnome-shell-extension-gpaste
