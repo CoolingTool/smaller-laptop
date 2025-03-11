@@ -20,33 +20,26 @@ modules:
   - type: rpm-ostree
     repos:
       - google-chrome.repo
-      - https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
       - https://copr.fedorainfracloud.org/coprs/ryanabx/cosmic-epoch/repo/fedora-%OS_VERSION%/ryanabx-cosmic-epoch-fedora-%OS_VERSION%.repo
     keys:
       - https://dl.google.com/linux/linux_signing_key.pub
-      - https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
     optfix:
       - google
-      - brave.com
     install:
       - google-chrome-stable
-      - brave-browser
-      - chromium
       - cosmic-store
-      - android-tools
-      - ripgrep
-      - pipx
       - gpaste
       - gpaste-bash-completion
       - gnome-shell-extension-gpaste
     remove:
-      # example: removing firefox (in favor of the flatpak, if I choose to reinstall firefox)
+      # example: removing firefox (in favor of the flatpak, if firefox is even desired)
       # "firefox" is the main package, "firefox-langpacks" is a dependency
       - firefox
       - firefox-langpacks # also remove firefox dependency (not required for all packages, this is a special case)
       
-      - htop # (useless)
-      - gnome-software # (RAM eater)
+      - htop # useless, I mean the I think the original maintainer Hisham Muhammad is really cool it's just I prefer GTK apps + having a .desktop file for a CLI app is weird
+      - nvtop # Mission Center on flathub is better, just configure it's settings to be have less graph points and update speed to be slightly slower.
+      - gnome-software # RAM eater, cosmic-store installed in favor. NOTE: if an app fails to install though COSMIC Store, check if "System" is selected and change that dropdown to "Flathub (System)"
     replace:
       - from-repo: https://copr.fedorainfracloud.org/coprs/trixieua/mutter-patched/repo/fedora-%OS_VERSION%/trixieua-mutter-patched-fedora-%OS_VERSION%.repo
         packages:
