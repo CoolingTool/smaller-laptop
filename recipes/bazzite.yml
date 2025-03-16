@@ -22,17 +22,18 @@ modules:
   - { type: copy, from: ghcr.io/ublue-os/bazzite:41, src: /usr/share/polkit-1/rules.d/30-waydroid.rules, dest: /usr/share/polkit-1/rules.d/ }
 
   # Install new packages
-  - type: bling
-    install:
-      - ublue-update
-
   - type: rpm-ostree
     repos:
+      - https://copr.fedorainfracloud.org/coprs/ublue-os/staging/repo/fedora-%OS_VERSION%/ublue-os-staging-fedora-%OS_VERSION%.repo
       - https://copr.fedorainfracloud.org/coprs/bazzite-org/bazzite/repo/fedora-%OS_VERSION%/bazzite-org-bazzite-fedora-%OS_VERSION%.repo
+    remove:
+      - ublue-os-update-services
     install:
-      # [10-update.just]
+      # [ublue-update]
+      - ublue-update
+      - topgrade
       - glow
-      # [waydroid scripts]
+      # [waydroid]
       - waydroid
       - cage
       - wlr-randr
