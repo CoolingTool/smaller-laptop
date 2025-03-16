@@ -57,6 +57,7 @@ modules:
     # enabled:
     #   - ublue-update.timer
       disabled:
+        - rpm-ostreed-automatic.timer
         - waydroid-container.timer
 
   - { type: copy, from: ghcr.io/ublue-os/bazzite:41, src: /usr/bin/waydroid-choose-gpu, dest: /usr/bin/ }
