@@ -37,6 +37,7 @@ modules:
       - waydroid
       - cage
       - wlr-randr
+      - python3-pip
 
   # [patched waydroid files]
   - { type: copy, from: ghcr.io/ublue-os/bazzite:41, src: /usr/lib/waydroid/data/scripts/waydroid-net.sh, dest: /usr/lib/waydroid/data/scripts/ }
