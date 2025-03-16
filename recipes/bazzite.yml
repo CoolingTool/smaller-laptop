@@ -1,0 +1,64 @@
+---
+# yaml-language-server: $schema=https://schema.blue-build.org/module-list-v1.json
+# I try to follow the order of https://github.com/ublue-os/bazzite/blob/main/Containerfile
+# that's why it's a mess lol
+# (I skip the repo clean up part cuz who cares)
+
+modules:
+  # [ublue-update files]
+  - { type: copy, from: ghcr.io/ublue-os/bazzite:41, src: /usr/share/ublue-os/just/10-update.just, dest: /usr/share/ublue-os/just/ }
+  - { type: copy, from: ghcr.io/ublue-os/bazzite:41, src: /usr/share/ublue-os/topgrade.toml, dest: /usr/share/ublue-os/ }
+
+  # [waydroid files]
+  - { type: copy, from: ghcr.io/ublue-os/bazzite:41, src: /usr/bin/waydroid-launcher, dest: /usr/bin/ }
+  - { type: copy, from: ghcr.io/ublue-os/bazzite:41, src: /etc/default/waydroid-launcher, dest: /etc/default/ }
+  - { type: copy, from: ghcr.io/ublue-os/bazzite:41, src: /usr/libexec/hwsupport/sysid, dest: /usr/libexec/hwsupport/ }
+  - { type: copy, from: ghcr.io/ublue-os/bazzite:41, src: /usr/libexec/waydroid-fix-controllers, dest: /usr/libexec/ }
+  - { type: copy, from: ghcr.io/ublue-os/bazzite:41, src: /usr/libexec/waydroid-container-start, dest: /usr/libexec/ }
+  - { type: copy, from: ghcr.io/ublue-os/bazzite:41, src: /usr/libexec/waydroid-container-stop, dest: /usr/libexec/ }
+  - { type: copy, from: ghcr.io/ublue-os/bazzite:41, src: /usr/libexec/waydroid-container-restart, dest: /usr/libexec/ }
+  - { type: copy, from: ghcr.io/ublue-os/bazzite:41, src: /usr/share/applications/waydroid-container-restart.desktop, dest: /usr/share/applications/ }
+  - { type: copy, from: ghcr.io/ublue-os/bazzite:41, src: /usr/share/polkit-1/actions/org.bazzite.waydroid.policy, dest: /usr/share/polkit-1/actions/ }
+  - { type: copy, from: ghcr.io/ublue-os/bazzite:41, src: /usr/share/polkit-1/rules.d/30-waydroid.rules, dest: /usr/share/polkit-1/rules.d/ }
+
+  # Install new packages
+  - type: bling
+    install:
+      - ublue-update
+
+  - type: rpm-ostree
+    repos:
+      - https://copr.fedorainfracloud.org/coprs/bazzite-org/bazzite/repo/fedora-%OS_VERSION%/bazzite-org-bazzite-fedora-%OS_VERSION%.repo
+    install:
+      # [10-update.just]
+      - glow
+      # [waydroid scripts]
+      - waydroid
+      - cage
+      - wlr-randr
+
+  # [patched waydroid files]
+  - { type: copy, from: ghcr.io/ublue-os/bazzite:41, src: /usr/lib/waydroid/data/scripts/waydroid-net.sh, dest: /usr/lib/waydroid/data/scripts/ }
+
+  # [patched ublue-update files]
+  - { type: copy, from: ghcr.io/ublue-os/bazzite:41, src: /usr/share/ublue-update/topgrade-user.toml, dest: /usr/share/ublue-update/ }
+  - { type: copy, from: ghcr.io/ublue-os/bazzite:41, src: /etc/ublue-update/ublue-update.toml, dest: /etc/ublue-update/ }
+
+  # Cleanup & Finalize
+  - { type: copy, from: ghcr.io/ublue-os/bazzite:41, src: /usr/share/ublue-os/just/82-bazzite-waydroid.just, dest: /tmp/files/justfiles/ }
+
+  - type: justfiles
+    validate: false
+    include:
+      - 82-bazzite-waydroid
+
+  - type: systemd
+    system:
+    # enabled:
+    #   - ublue-update.timer
+      disabled:
+        - waydroid-container.timer
+
+  - { type: copy, from: ghcr.io/ublue-os/bazzite:41, src: /usr/bin/waydroid-choose-gpu, dest: /usr/bin/ }
+  
+  - { type: copy, from: ghcr.io/ublue-os/bazzite:41, src: /usr/share/ublue-os/image-info.json, dest: /usr/share/ublue-os/ }
