@@ -51,7 +51,7 @@ modules:
   - type: justfiles
     validate: false
     include:
-      - 82-bazzite-waydroid
+      - 82-bazzite-waydroid.just
 
   - type: systemd
     system:
