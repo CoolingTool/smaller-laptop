@@ -46,12 +46,11 @@ modules:
   - { type: copy, from: ghcr.io/ublue-os/bazzite:41, src: /etc/ublue-update/ublue-update.toml, dest: /etc/ublue-update/ }
 
   # Cleanup & Finalize
-  - { type: copy, from: ghcr.io/ublue-os/bazzite:41, src: /usr/share/ublue-os/just/82-bazzite-waydroid.just, dest: /tmp/files/justfiles/ }
+  - { type: copy, from: ghcr.io/ublue-os/bazzite:41, src: /usr/share/ublue-os/just/82-bazzite-waydroid.just, dest: /usr/share/ublue-os/just/ }
 
-  - type: justfiles
-    validate: false
-    include:
-      - 82-bazzite-waydroid.just
+  - type: script
+    snippets:
+      - "echo \"import \\\"/usr/share/ublue-os/just/82-bazzite-waydroid.just\\\"\" >> /usr/share/ublue-os/just/60-custom.just"
 
   - type: systemd
     system:
